@@ -45,7 +45,7 @@ def find_invoice_pdfs(base_path,test = False):
     numbered_folders.sort(reverse=True)
     invoice_files = []
     for i in range(len(numbered_folders)):
-        folder = numbered_folders[i]
+        folder = numbered_folders[i][1]
         print(f"find_invoice_pdfs: Checking folder: {folder}")
         for root, dirs, files in os.walk(os.path.join(base_path, folder)):
             for file in files:
