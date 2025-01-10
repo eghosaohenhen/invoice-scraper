@@ -32,7 +32,7 @@ def find_invoice_pdfs(base_path,test = False):
     Find all invoice PDFs in the given directory, starting from the most recent truck folder.
     """
     folders = [f for f in os.listdir(base_path) if os.path.isdir(f)]
-    print(folders)
+    print(folders, os.listdir(base_path))
     numbered_folders = []
     for f in folders:
         match = re.search(r'(\d+)$', f)
