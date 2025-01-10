@@ -76,7 +76,7 @@ def create_client_data(invoice_files, base_path, output_path, test=False):
         
         row += 1
     
-    wb.save(output_path)
+    wb.save(os.path.join(output_path, "_client_data.xlsx"))
 if __name__ == '__main__':
     
     # Set up command-line argument parsing
