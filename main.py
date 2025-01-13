@@ -21,7 +21,7 @@ def format_client_data(text):
     lines = []
     for line in bill_lines:
         phone_number_match = re.search(r'\(?(\d{3})\)?-?(\d{3})(-?)(\d{4})', line)
-        email_match = re.search(r'[\w\+\.-%]+@[\w\.-]+', line)
+        email_match = re.search(r'[\w\+\.%-]+@[\w\.-]+', line)
         if phone_number_match:
             print(f"this is the phone number match {phone_number_match.group(0)}")
             continue
