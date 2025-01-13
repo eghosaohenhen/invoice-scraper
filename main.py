@@ -9,6 +9,7 @@ from pypdf import PdfReader
 def extract_invoice_data(file_path):
     
     with PdfReader(file_path) as reader:
+        print(f"attempting to read {file_path}")
         fields = reader.get_form_text_fields()
         bill_to_field = fields['Bill To']
         newline_bill_to = bill_to_field.replace("\r", "\n")
