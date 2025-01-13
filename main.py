@@ -10,9 +10,6 @@ def extract_invoice_data(file_path):
     
     with PdfReader(file_path) as reader:
         fields = reader.get_form_text_fields()
-        for field, value in fields.items():
-            print(f"this is reader's field {field}")
-            print(f"this is reader's value {value}")
         bill_to_field = fields['Bill To']
         newline_bill_to = bill_to_field.replace("\r", "\n")
         print(f"this is the extracted bill to field with carriages{bill_to_field} \n then replaced: {newline_bill_to}")
