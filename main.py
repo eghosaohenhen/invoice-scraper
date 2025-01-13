@@ -10,7 +10,11 @@ def extract_invoice_data(file_path):
     
     with PdfReader(file_path) as reader:
         print(f"attempting to read {file_path}")
-        fields = reader.get_form_text_fields()
+        try:
+            fields = reader.get_form_text_fields()
+        except:
+            print(f"extract_invoice_data: Error reading {file_path}")
+            return ""
         if 'Bill To' not in fields:
             print(f"extract_invoice_data: No 'Bill To' field found in {file_path}")
             return ""
