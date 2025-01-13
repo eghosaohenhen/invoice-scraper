@@ -73,7 +73,7 @@ def find_invoice_pdfs(base_path,test = False):
                 break
         print(f"find_invoice_pdfs: finished checking folder: {folder}")
     return invoice_files
-def create_client_data(invoice_files, base_path, output_path, test=False):
+def create_client_data(invoice_files, base_path, output_path, name, test=False):
     """
     Extract client data from each invoice PDF and store it in a spreadsheet.
     """
@@ -95,7 +95,7 @@ def create_client_data(invoice_files, base_path, output_path, test=False):
         
         row += 1
     
-    wb.save(os.path.join(output_path, "_client_data.xlsx"))
+    wb.save(os.path.join(output_path, name))
 if __name__ == '__main__':
     
     # Set up command-line argument parsing
@@ -103,6 +103,7 @@ if __name__ == '__main__':
     parser.add_argument("--root", required=True, help="The root directory where invoices are stored.")
     parser.add_argument("--output", required=True, help="The output directory where the client data will be stored.")
     parser.add_argument("--test", required=False, help="Whether to run in test mode.", action="store_true")
+    parser.add_argument("--name", required=False, help="What you want to name the excel file output. MUST end in .xlsx")
     
     args = parser.parse_args()
     
@@ -115,7 +116,7 @@ if __name__ == '__main__':
     
     # run the main code
     invoice_files = find_invoice_pdfs(args.root, args.test)
-    create_client_data(invoice_files, args.root, args.output, args.test)
+    create_client_data(invoice_files, args.root, args.output, args.test, args.name)
     print("Done!")
 
 
