@@ -20,7 +20,19 @@ def extract_invoice_data(file_path):
         
     return newline_bill_to
 def format_client_data(text):
-    lines = text.split("\n")
+    bill_lines = text.split("\n")
+    lines = []
+    for line in bill_lines:
+        phone_number_match = re.search(r'\(?(\d{3})\)?-?(\d{3})(-?)(\d{4})', line)
+        email_match = re.search(r'[\w\+\.-%]+@[\w\.-]+', line)
+        if phone_number_match:
+            print(f"this is the phone number match {phone_number_match.group(0)}")
+            continue
+        if email_match:
+            print(f"this is the email match {email_match.group(0)}")
+            continue
+        lines.append(line)
+            
     if len(lines) < 4:
         lines.insert(0, "\n")
     new_text = "\n".join(lines)
@@ -49,7 +61,8 @@ def find_invoice_pdfs(base_path,test = False):
         print(f"find_invoice_pdfs: Checking folder: {folder}")
         for root, dirs, files in os.walk(os.path.join(base_path, folder)):
             for file in files:
-                match = re.search(r'-Inv.pdf$', file, re.IGNORECASE)
+                match = re.search(r'(-Inv.pdf$|Invoice)', file, re.IGNORECASE) 
+                
                 if match:
                     print(f"find_invoice_pdfs: Found invoice PDF: {file}")
                     invoice_files.append(os.path.join(root, file))
