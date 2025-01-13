@@ -11,6 +11,9 @@ def extract_invoice_data(file_path):
     with PdfReader(file_path) as reader:
         print(f"attempting to read {file_path}")
         fields = reader.get_form_text_fields()
+        if 'Bill To' not in fields:
+            print(f"extract_invoice_data: No 'Bill To' field found in {file_path}")
+            return ""
         bill_to_field = fields['Bill To']
         if not bill_to_field:
             print(f"extract_invoice_data: No 'Bill To' field found in {file_path}")
@@ -62,7 +65,7 @@ def find_invoice_pdfs(base_path,test = False):
         print(f"find_invoice_pdfs: Checking folder: {folder}")
         for root, dirs, files in os.walk(os.path.join(base_path, folder)):
             for file in files:
-                match = re.search(r'(-Inv.pdf$|Invoice$)', file, re.IGNORECASE) 
+                match = re.search(r'(Inv|Invoice)', file, re.IGNORECASE) 
                 
                 if match:
                     print(f"find_invoice_pdfs: Found invoice PDF: {file}")
