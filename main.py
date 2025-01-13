@@ -69,7 +69,7 @@ def find_invoice_pdfs(base_path,test = False):
         print(f"find_invoice_pdfs: Checking folder: {folder}")
         for root, dirs, files in os.walk(os.path.join(base_path, folder)):
             for file in files:
-                match = re.search(r'(Inv|Invoice)', file, re.IGNORECASE) 
+                match = re.search(r'.*(Inv|Invoice).*\.pdf$', file, re.IGNORECASE) 
                 
                 if match:
                     print(f"find_invoice_pdfs: Found invoice PDF: {file}")
