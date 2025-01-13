@@ -5,7 +5,20 @@ from openpyxl import Workbook
 from openpyxl.styles import Alignment
 from pypdf import PdfReader
 
+clients = set()
 
+def restore_clients(file_path):
+    global clients
+    path = os.path.join(file_path, "clients.txt")
+    if os.path.exists(path):
+        with open(path, "r") as f:
+            clients = set(f.read().split("\n---\n"))
+def save_clients(file_path):
+    global clients
+    path = os.path.join(file_path, "clients.txt")
+    with open(path, "a") as f:
+        f.write("\n---\n".join(clients))
+        f.write("\n---\n")
 def extract_invoice_data(file_path):
     
     with PdfReader(file_path) as reader:
@@ -31,7 +44,7 @@ def format_client_data(text):
     bill_lines = text.split("\n")
     lines = []
     for line in bill_lines:
-        phone_number_match = re.search(r'\(?(\d{3})\)?-?(\d{3})(-?)(\d{4})', line)
+        phone_number_match = re.search(r'\(?(\d{3})\)?(-|\s|\.)?(\d{3})(-|\s|\.)?(\d{4})', line)
         email_match = re.search(r'[\w\+\.%-]+@[\w\.-]+', line)
         if phone_number_match:
             print(f"this is the phone number match {phone_number_match.group(0)}")
@@ -45,6 +58,10 @@ def format_client_data(text):
         lines.insert(0, "\n")
     new_text = "\n".join(lines)
     print(f"this is the formatted text {new_text}")
+    if new_text in clients:
+        return ""
+    else:
+        clients.add(new_text)
     return new_text
 
 def find_invoice_pdfs(base_path,test = False):
@@ -97,6 +114,9 @@ def create_client_data(invoice_files, base_path, output_path, name, test=False):
             print(f"create_client_data: No client data found in {file}")
             continue
         data = format_client_data(text)
+        if not data:
+            print(f"create_client_data: Duplicate client data found in {file}")
+            continue
         cell = sheet.cell(row=row, column=1, value = data)
         cell.alignment = Alignment(wrap_text=True)
         
@@ -122,8 +142,10 @@ if __name__ == '__main__':
     # print(text)
     
     # run the main code
+    restore_clients(args.output)
     invoice_files = find_invoice_pdfs(args.root, args.test)
     create_client_data(invoice_files, args.root, args.output, args.name, args.test)
+    save_clients(args.output)
     print("Done!")
 
 
