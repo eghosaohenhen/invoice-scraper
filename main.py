@@ -116,7 +116,7 @@ if __name__ == '__main__':
     
     # run the main code
     invoice_files = find_invoice_pdfs(args.root, args.test)
-    create_client_data(invoice_files, args.root, args.output, args.test, args.name)
+    create_client_data(invoice_files, args.root, args.output, args.name, args.test)
     print("Done!")
 
 
