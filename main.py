@@ -12,6 +12,9 @@ def extract_invoice_data(file_path):
         print(f"attempting to read {file_path}")
         fields = reader.get_form_text_fields()
         bill_to_field = fields['Bill To']
+        if not bill_to_field:
+            print(f"extract_invoice_data: No 'Bill To' field found in {file_path}")
+            return ""
         newline_bill_to = bill_to_field.replace("\r", "\n")
         print(f"this is the extracted bill to field with carriages{bill_to_field} \n then replaced: {newline_bill_to}")
         
@@ -83,6 +86,9 @@ def create_client_data(invoice_files, base_path, output_path, test=False):
     for file in invoice_files:
         text = extract_invoice_data(file)
         print(f"create_client_data: Extracted client data from {file}")
+        if not text:
+            print(f"create_client_data: No client data found in {file}")
+            continue
         data = format_client_data(text)
         cell = sheet.cell(row=row, column=1, value = data)
         cell.alignment = Alignment(wrap_text=True)
