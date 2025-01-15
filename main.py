@@ -54,7 +54,7 @@ def format_client_data(text):
             continue
         lines.append(line)
             
-    if len(lines) < 4:
+    if len(lines) < 5:
         lines.insert(0, "\n")
     new_text = "\n".join(lines)
     print(f"this is the formatted text {new_text}")
