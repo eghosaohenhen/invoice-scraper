@@ -9,13 +9,13 @@ clients = set()
 
 def restore_clients(file_path):
     global clients
-    path = os.path.join(file_path, "clients.txt")
+    path = os.path.join(file_path, "clients_2023.txt")
     if os.path.exists(path):
         with open(path, "r") as f:
             clients = set(f.read().split("\n---\n"))
 def save_clients(file_path):
     global clients
-    path = os.path.join(file_path, "clients.txt")
+    path = os.path.join(file_path, "clients_2023.txt")
     with open(path, "a") as f:
         f.write("\n---\n".join(clients))
         f.write("\n---\n")
