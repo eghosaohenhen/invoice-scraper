@@ -59,6 +59,7 @@ def format_client_data(text):
     new_text = "\n".join(lines)
     print(f"this is the formatted text {new_text}")
     if new_text in clients:
+        print("format_client_data: Data already in clients.txt")
         return ""
     else:
         clients.add(new_text)
