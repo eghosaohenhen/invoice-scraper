@@ -9,13 +9,13 @@ clients = set()
 
 def restore_clients(file_path):
     global clients
-    path = os.path.join(file_path, "clients_2023.txt")
+    path = os.path.join(file_path, "clients.txt")
     if os.path.exists(path):
         with open(path, "r") as f:
             clients = set(f.read().split("\n---\n"))
 def save_clients(file_path):
     global clients
-    path = os.path.join(file_path, "clients_2023.txt")
+    path = os.path.join(file_path, "clients.txt")
     with open(path, "a") as f:
         f.write("\n---\n".join(clients))
         f.write("\n---\n")
@@ -137,10 +137,6 @@ if __name__ == '__main__':
     
     print(f"{'main: Simulating first client extract' if args.test else 'main: Extracting client data from invoices'} to: {args.output}")
     
-    # parser.add_argument("--file", required=True, help="The path to the invoice file.")
-    # args = parser.parse_args()
-    # text = extract_invoice_data(args.file)
-    # print(text)
     
     # run the main code
     restore_clients(args.output)
